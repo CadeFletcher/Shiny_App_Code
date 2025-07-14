@@ -1,0 +1,33 @@
+$(document).on("shiny:connected", function(event) {
+  // Create an object to store video players
+  var videoPlayers = {};
+
+  // Custom message handler for updating video source
+  Shiny.addCustomMessageHandler("updateVideo", function(message) {
+    // Get the video player element by ID
+    var videoPlayer = document.getElementById(message.id);
+
+    // Check if the video player exists
+    if (videoPlayer) {
+      // Update the source and load the video
+      videoPlayer.src = message.src.replace(/%20/g, ' '); // Replace %20 with a space
+      videoPlayer.load();
+    } else {
+      console.error("Video player not found with ID: " + message.id);
+    }
+  });
+
+  // Custom message handler for playing video
+  Shiny.addCustomMessageHandler("playVideo", function(message) {
+    // Get the video player element by ID
+    var videoPlayer = document.getElementById(message.id);
+
+    // Check if the video player exists
+    if (videoPlayer) {
+      // Play the video
+      videoPlayer.play();
+    } else {
+      console.error("Video player not found with ID: " + message.id);
+    }
+  });
+});
